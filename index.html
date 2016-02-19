@@ -22,23 +22,27 @@ html, body, #content {
 <div id="content"></div>
 
 <script>
-fontSize = 1;
+fontSize = 16;
+maxSize = 1024;
+minSize = 1;
 
-function resize() {
+function update() {
   var content = document.querySelector('#content');
+  var value = document.querySelector('#entry').value;
+  content.innerText = value;
 
   if (!content.innerText.trim()) {
     return;
   }
 
-  while (fontSize < 1000 &&
+  while (fontSize < 1024 &&
     (content.scrollHeight <= content.clientHeight ||
       content.scrollWidth <= content.clientWidth)) {
         fontSize *= 2;
         content.style.fontSize = fontSize + 'px';
       }
 
-  while (fontSize > 1 &&
+  while (fontSize > minSize &&
     (content.scrollHeight > content.clientHeight ||
       content.scrollWidth > content.clientWidth)) {
         fontSize -= 1;
@@ -46,14 +50,8 @@ function resize() {
       }
 }
 
-function update() {
-  document.querySelector('#content').innerText =
-    document.querySelector('#entry').value;
-  resize();
-}
-
-resize();
-addEventListener('resize', resize);
+update();
+addEventListener('resize', update);
 document.querySelector('#entry').addEventListener('input', update);
 </script>
 </body>
