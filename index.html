@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<head>
+<style>
+html, body, #content {
+  height: 100%;
+  margin: 0;
+}
+
+#entry {
+  position: fixed;
+  width: 100%;
+}
+</style>
+
+<title>As big as possible</title>
+</head>
+
+<body>
+
+<input id="entry">
+<div id="content"></div>
+
+<script>
+fontSize = 1;
+
+function resize() {
+  var content = document.querySelector('#content');
+
+  if (!content.innerText.trim()) {
+    return;
+  }
+
+  while (fontSize < 1000 &&
+    (content.scrollHeight <= content.clientHeight ||
+      content.scrollWidth <= content.clientWidth)) {
+        fontSize *= 2;
+        content.style.fontSize = fontSize + 'px';
+      }
+
+  while (fontSize > 1 &&
+    (content.scrollHeight > content.clientHeight ||
+      content.scrollWidth > content.clientWidth)) {
+        fontSize -= 1;
+        content.style.fontSize = fontSize + 'px';
+      }
+}
+
+function update() {
+  document.querySelector('#content').innerText =
+    document.querySelector('#entry').value;
+  resize();
+}
+
+resize();
+addEventListener('resize', resize);
+document.querySelector('#entry').addEventListener('input', update);
+</script>
+</body>
